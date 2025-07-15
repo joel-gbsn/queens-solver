@@ -1,8 +1,10 @@
+import datamanagement.Reader;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		Reader reader = new Reader("0001.txt");
+		reader.readPuzzle();
 
 	}
 
