@@ -1,38 +1,45 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+/**
+ * Represents the playing grid for a puzzle.
+ * @author Joel Gibson
+ */
 public class Puzzle {
 	
+	/**
+	 * The number of rows/columns.
+	 */
 	private int dimension;
 	
-	private Cell[][] grid;
+	/**
+	 * The squares of the playing grid.
+	 */
+	private Square[][] grid;
 	
-	private List<List<Cell>> regions;
-	
-	public Puzzle(int dimension) {
-		this.dimension = dimension;
-		this.grid = new Cell[dimension][dimension];
-	}
-	
-	public void setGrid(List<char[]> lines) {
-		Map<Character, List<Cell>> regions = new HashMap<>();
-		
+	/**
+	 * Creates a new puzzle from the given grid.
+	 * @param grid the grid containing the region label of each square
+	 */
+	public Puzzle(char[][] grid) {
+		this.dimension = grid.length;
+		this.grid = new Square[dimension][dimension];
 		for (int i = 0; i < dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
-				char region = lines.get(i)[j];
-				Cell cell = new Cell(region);
-				grid[i][j] = cell;
-				
-				if (!regions.containsKey(region)) {
-					regions.put(region, new ArrayList<Cell>());
-				}
-				regions.get(region).add(cell);
+				this.grid[i][j] = new Square(grid[i][j]);
 			}
 		}
 	}
 
+	public boolean isCrowned(int row, int col) {
+		return grid[row][col].isCrowned();
+	}
+	
+	public void crown(int row, int col) {
+		grid[row][col].crown();
+	}
+	
+	public void removeCrown(int row, int col) {
+		grid[row][col].removeCrown();
+	}
+	
 }

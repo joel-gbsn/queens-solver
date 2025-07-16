@@ -21,7 +21,7 @@ public class Reader {
 	
 	public Puzzle readPuzzle() {
 		
-		List<char[]> lines = new ArrayList<>();
+		List<char[]> rows = new ArrayList<>();
 		
 		File file = new File(filename);
 		FileReader fr = null;
@@ -35,11 +35,11 @@ public class Reader {
 			// read each line from the file
 			String line = "";
 			while ((line = br.readLine()) != null) {
-				lines.add(line.toCharArray());
+				rows.add(line.toCharArray());
 			}
 			
 		} catch (IOException e) {
-			System.out.println("File error.");
+			System.out.println("Error reading file.");
 			return null;
 			
 		} finally {
@@ -48,44 +48,43 @@ public class Reader {
 				fr.close();
 				br.close();
 			} catch (IOException e) {
-				System.out.println("File error.");
+				System.out.println("Error reading file.");
 				return null;
 			}
 		}
 		
-		if (!isValidDimension(lines)) {
-			System.out.println("Incorrect puzzle dimensions.");
+		char[][] grid = rows.toArray(new char[0][0]);
+		
+		if (!isValidDimension(grid)) {
+			System.out.println("Invalid puzzle dimensions.");
 			return null;
 		}
 		
-		if (!isValidRegionNumber(lines)) {
-			System.out.println("Incorrect number of regions.");
+		if (!isValidRegionNumber(grid)) {
+			System.out.println("Invalid number of regions.");
 			return null;
 		}
 		
-		Puzzle puzzle = new Puzzle(lines.size());
-		puzzle.setGrid(lines);
-		return puzzle;
+		return new Puzzle(grid);
 	}
 	
-	protected boolean isValidDimension(List<char[]> lines) {
-		int numRows = lines.size();
-		for (char[] line : lines) {
-			if (line.length != numRows) {
+	protected boolean isValidDimension(char[][] grid) {
+		int numRows = grid.length;
+		for (char[] row : grid) {
+			if (row.length != numRows) {
 				return false;
 			}
 		}
 		return numRows > 3;
 	}
 	
-	protected boolean isValidRegionNumber(List<char[]> lines) {
-		int numRows = lines.size();
+	protected boolean isValidRegionNumber(char[][] grid) {
 		Set<Character> regions = new HashSet<>();
-		for (char[] line : lines) {
-			for (char c : line) {
-				regions.add(c);
+		for (char[] row : grid) {
+			for (char elem : row) {
+				regions.add(elem);
 			}
 		}
-		return numRows == regions.size();
+		return grid.length == regions.size();
 	}
 }
