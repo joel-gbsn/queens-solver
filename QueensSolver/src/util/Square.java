@@ -51,4 +51,12 @@ public class Square {
 	public void removeCrown() {
 		this.crowned = false;
 	}
+	
+	@Override
+	public String toString() {
+		if (crowned) {
+			return "W";
+		}
+		return "-";
+	}
 }	

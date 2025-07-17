@@ -7,7 +7,7 @@ package util;
 public class Puzzle {
 	
 	/**
-	 * The number of rows/columns.
+	 * The number of rows/columns/regions.
 	 */
 	private int dimension;
 	
@@ -15,6 +15,11 @@ public class Puzzle {
 	 * The squares of the playing grid.
 	 */
 	private Square[][] grid;
+	
+	/**
+	 * The current number of crowns in the puzzle.
+	 */
+	private int numCrowns;
 	
 	/**
 	 * Creates a new puzzle from the given grid.
@@ -30,20 +35,47 @@ public class Puzzle {
 		}
 	}
 	
+	public int getDimension() {
+		return dimension;
+	}
+	
 	public char getRegion(int row, int col) {
 		return grid[row][col].getRegion();
 	}
 
+	// needed?
 	public boolean isCrowned(int row, int col) {
 		return grid[row][col].isCrowned();
 	}
 	
 	public void crown(int row, int col) {
-		grid[row][col].crown();
+		if (!grid[row][col].isCrowned()) {
+			grid[row][col].crown();
+			numCrowns++;
+		}
 	}
 	
 	public void removeCrown(int row, int col) {
-		grid[row][col].removeCrown();
+		if (grid[row][col].isCrowned()) {
+			grid[row][col].removeCrown();
+			numCrowns--;
+		}
 	}
 	
+	public int getNumCrowns() {
+		return numCrowns;
+	}
+	
+	public boolean isSolved() {
+		return numCrowns == dimension;
+	}
+	
+	public void print() {
+		for (Square[] row : grid) {
+			for (Square col : row) {
+				System.out.print(col);
+			}
+			System.out.println();
+		}
+	}
 }
