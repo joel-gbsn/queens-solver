@@ -29,6 +29,10 @@ public class Puzzle {
 			}
 		}
 	}
+	
+	public char getRegion(int row, int col) {
+		return grid[row][col].getRegion();
+	}
 
 	public boolean isCrowned(int row, int col) {
 		return grid[row][col].isCrowned();
