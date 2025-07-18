@@ -7,21 +7,49 @@ package util;
 public class Square {
 	
 	/**
-	 * The region (colour) the square is part of.
+	 * The row number.
+	 */
+	private int row;
+	
+	/**
+	 * The column number.
+	 */
+	private int col;
+	
+	/**
+	 * The region label.
 	 */
 	private char region;
 	
 	/**
-	 * Whether a crown has been placed on the square.
+	 * Whether the square is currently crowned.
 	 */
 	private boolean crowned;
 	
 	/**
-	 * Creates a new square with the given region.
-	 * @param region the region/colour of the square
+	 * Creates a squares with the given parameters.
+	 * @param row the row number
+	 * @param col the column number
+	 * @param region the region label
 	 */
-	public Square(char region) {
+	public Square(int row, int col, char region) {
+		this.row = row;
+		this.col = col;
 		this.region = region;
+	}
+	
+	/**
+	 * @return the row
+	 */
+	public int getRow() {
+		return row;
+	}
+	
+	/**
+	 * @return the column
+	 */
+	public int getCol() {
+		return col;
 	}
 
 	/**
@@ -41,7 +69,7 @@ public class Square {
 	/**
 	 * Places a crown on the square.
 	 */
-	public void crown() {
+	public void addCrown() {
 		this.crowned = true;
 	}
 	
@@ -59,4 +87,4 @@ public class Square {
 		}
 		return "-";
 	}
-}	
+}

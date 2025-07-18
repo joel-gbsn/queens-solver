@@ -1,8 +1,5 @@
 package processor;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 import datamanagement.Reader;
 import util.Puzzle;
 
@@ -12,65 +9,43 @@ public class Processor {
 	
 	private Puzzle puzzle;
 	
-	private Deque<Integer> crownedCols = new LinkedList<>();
-	private Deque<Character> crownedRegions = new LinkedList<>();
-	
 	public Processor(Reader reader) {
 		this.reader = reader;
 		this.puzzle = reader.readPuzzle();
 	}
 	
-	protected boolean isSquareAvailable(int row, int col) {
-		if (crownedRegions.contains(puzzle.getRegion(row, col))) {
-			return false;
-		}
-		
-		if (crownedCols.contains(col)) {
-			return false;
-		}
-		
-		if (!crownedCols.isEmpty() && Math.abs(crownedCols.peek() - col) == 1) {
-			return false;
-		}
-		
-		return true;
-	}
-	
-	protected void crown(int row, int col) {
-		puzzle.crown(row, col);
-		crownedCols.push(col);
-		crownedRegions.push(puzzle.getRegion(row, col));
-	}
-	
-	protected void removeCrown(int row, int col) {
-		puzzle.removeCrown(row, col);
-		crownedCols.pop();
-		crownedRegions.pop();
-	}
-	
+	/**
+	 * Solves the puzzle.
+	 * @return true if the puzzle could be solved, otherwise false
+	 */
 	public boolean solvePuzzle() {
-		
+		return solveRow(0, puzzle.getSize());
+	}
+	
+	/**
+	 * Solves the puzzle starting from the given row.
+	 * @param row the row to solve
+	 * @param size the size of the puzzle (the number of rows, columns and regions)
+	 * @return true if the puzzle could be solved, otherwise false
+	 */
+	protected boolean solveRow(int row, int size) {
+		// check if correct number of squares have been crowned
 		if (puzzle.isSolved()) {
 			return true;
 		}
 		
-		int row = puzzle.getNumCrowns();
-		
-		for (int col = 0; col < puzzle.getDimension(); col++) {
-			
-			if (!isSquareAvailable(row, col)) {
+		// test crowning each square in the row
+		for (int col = 0; col < size; col++) {
+			if (!puzzle.addCrown(row, col)) {
 				continue;
 			}
 			
-			crown(row, col);
-			
-			if (solvePuzzle()) {
+			// recursively crown the next row
+			if (solveRow((row + 1) % size, size)) {
 				return true;
 			}
-			
-			removeCrown(row, col);
+			puzzle.removeCrown(row, col);
 		}
-		
 		return false;
 	}
 	
