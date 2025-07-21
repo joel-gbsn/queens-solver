@@ -131,12 +131,52 @@ public class Puzzle {
 		return crownedSquares.size() == size;
 	}
 	
-	public void print() {
-		for (Square[] row : grid) {
-			for (Square col : row) {
-				System.out.print(col);
+	public String[][] createDisplayGrid() {
+		int outputLength = size * 2 + 1;
+		String[][] output = new String[outputLength][outputLength];
+		
+		// initialise with single blank spaces
+		for (int i = 0; i < outputLength; i++) {
+			for (int j = 0; j < outputLength; j++) {
+				output[i][j] = " ";
 			}
-			System.out.println();
 		}
+		
+		// add crowns
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				output[2 * i + 1][2 * j + 1] = " " + grid[i][j] + " ";
+			}
+		}
+		
+		// add vertical borders
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size - 1; j++) {
+				if (getRegion(i, j) != getRegion(i, j + 1)) {
+					output[i * 2 + 1][(j + 1) * 2] = "|";
+				}
+			}
+		}
+		
+		// add horizontal borders
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size; j++) {
+				if (getRegion(i, j) != getRegion(i + 1, j)) {
+					output[(i + 1) * 2][j * 2 + 1] = "---";
+				} else {
+					output[(i + 1) * 2][j * 2 + 1] = "   ";
+				}
+			}
+		}
+		
+		// add outside borders
+		for (int i = 1; i < outputLength; i = i + 2) {
+			output[i][0] = "|";
+			output[i][outputLength - 1] = "|";
+			output[0][i] = "---";
+			output[outputLength - 1][i] = "---";
+		}
+		
+		return output;
 	}
 }

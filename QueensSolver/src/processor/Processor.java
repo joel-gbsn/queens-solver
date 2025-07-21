@@ -50,7 +50,10 @@ public class Processor {
 	}
 	
 	public void print() {
-		puzzle.print();
+		String[][] grid = puzzle.createDisplayGrid();
+		for (String[] row : grid) {
+			System.out.println(String.join("", row));
+		}
 	}
 
 }

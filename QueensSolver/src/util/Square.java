@@ -83,8 +83,8 @@ public class Square {
 	@Override
 	public String toString() {
 		if (crowned) {
-			return "W";
+			return "X";
 		}
-		return "-";
+		return " ";
 	}
 }
