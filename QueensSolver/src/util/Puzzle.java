@@ -153,7 +153,7 @@ public class Puzzle {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size - 1; j++) {
 				if (getRegion(i, j) != getRegion(i, j + 1)) {
-					output[i * 2 + 1][(j + 1) * 2] = "|";
+					output[i * 2 + 1][(j + 1) * 2] = "\u2503";
 				}
 			}
 		}
@@ -162,7 +162,7 @@ public class Puzzle {
 		for (int i = 0; i < size - 1; i++) {
 			for (int j = 0; j < size; j++) {
 				if (getRegion(i, j) != getRegion(i + 1, j)) {
-					output[(i + 1) * 2][j * 2 + 1] = "---";
+					output[(i + 1) * 2][j * 2 + 1] = "\u2501\u2501\u2501";
 				} else {
 					output[(i + 1) * 2][j * 2 + 1] = "   ";
 				}
@@ -171,10 +171,28 @@ public class Puzzle {
 		
 		// add outside borders
 		for (int i = 1; i < outputLength; i = i + 2) {
-			output[i][0] = "|";
-			output[i][outputLength - 1] = "|";
-			output[0][i] = "---";
-			output[outputLength - 1][i] = "---";
+			output[i][0] = "\u2503";
+			output[i][outputLength - 1] = "\u2503";
+			output[0][i] = "\u2501\u2501\u2501";
+			output[outputLength - 1][i] = "\u2501\u2501\u2501";
+		}
+		
+		// join horizontal borders
+		for (int i = 0; i < outputLength; i = i + 2) {
+			for (int j = 2; j < outputLength - 2; j = j + 2) {
+				if (output[i][j - 1] == "\u2501\u2501\u2501" && output[i][j + 1] == "\u2501\u2501\u2501") {
+					output[i][j] = "\u2501";
+				}
+			}
+		}
+		
+		// join vertical borders
+		for (int i = 2; i < outputLength - 2; i = i + 2) {
+			for (int j = 0; j < outputLength; j = j + 2) {
+				if (output[i - 1][j] == "\u2503" && output[i + 1][j] == "\u2503") {
+					output[i][j] = "\u2503";
+				}
+			}
 		}
 		
 		return output;
