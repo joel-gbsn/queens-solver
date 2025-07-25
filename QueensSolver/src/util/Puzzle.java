@@ -177,8 +177,27 @@ public class Puzzle {
 			output[outputLength - 1][i] = "\u2501\u2501\u2501";
 		}
 		
+		// add corners
+		output[0][0] = "\u250F";
+		output[0][outputLength - 1] = "\u2513";
+		output[outputLength - 1][0] = "\u2517";
+		output[outputLength - 1][outputLength - 1] = "\u251B";
+		
+		
+		// Create 4 letters codes LRUD and match with switch statement
+		// have variables to store unicode strings
+		
+		// join upper horizontal borders
+		for (int j = 2; j < outputLength - 2; j = j + 2) {
+			if (output[1][j] == "\u2503") {
+				output[0][j] = "\u2533";
+			} else {
+				output[0][j] = "\u2501";
+			}
+		}
+		
 		// join horizontal borders
-		for (int i = 0; i < outputLength; i = i + 2) {
+		for (int i = 1; i < outputLength; i = i + 2) {
 			for (int j = 2; j < outputLength - 2; j = j + 2) {
 				if (output[i][j - 1] == "\u2501\u2501\u2501" && output[i][j + 1] == "\u2501\u2501\u2501") {
 					output[i][j] = "\u2501";
