@@ -1,6 +1,7 @@
 package processor;
 
 import datamanagement.Reader;
+import util.GridCreator;
 import util.Puzzle;
 
 public class Processor {
@@ -50,7 +51,8 @@ public class Processor {
 	}
 	
 	public void print() {
-		String[][] grid = puzzle.createDisplayGrid();
+		GridCreator creator = new GridCreator(puzzle);
+		String[][] grid = creator.createGrid();
 		for (String[] row : grid) {
 			System.out.println(String.join("", row));
 		}

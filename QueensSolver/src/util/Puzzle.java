@@ -51,7 +51,7 @@ public class Puzzle {
 	 * @param col the column
 	 * @return the region label
 	 */
-	protected char getRegion(int row, int col) {
+	public char getRegion(int row, int col) {
 		return grid[row][col].getRegion();
 	}
 	
@@ -119,7 +119,7 @@ public class Puzzle {
 	 * @param col the column
 	 * @return true if square is crowned, otherwise false
 	 */
-	protected boolean isCrowned(int row, int col) {
+	public boolean isCrowned(int row, int col) {
 		return grid[row][col].isCrowned();
 	}
 	
@@ -129,91 +129,5 @@ public class Puzzle {
 	 */
 	public boolean isSolved() {
 		return crownedSquares.size() == size;
-	}
-	
-	public String[][] createDisplayGrid() {
-		int outputLength = size * 2 + 1;
-		String[][] output = new String[outputLength][outputLength];
-		
-		// initialise with single blank spaces
-		for (int i = 0; i < outputLength; i++) {
-			for (int j = 0; j < outputLength; j++) {
-				output[i][j] = " ";
-			}
-		}
-		
-		// add crowns
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				output[2 * i + 1][2 * j + 1] = " " + grid[i][j] + " ";
-			}
-		}
-		
-		// add vertical borders
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size - 1; j++) {
-				if (getRegion(i, j) != getRegion(i, j + 1)) {
-					output[i * 2 + 1][(j + 1) * 2] = "\u2503";
-				}
-			}
-		}
-		
-		// add horizontal borders
-		for (int i = 0; i < size - 1; i++) {
-			for (int j = 0; j < size; j++) {
-				if (getRegion(i, j) != getRegion(i + 1, j)) {
-					output[(i + 1) * 2][j * 2 + 1] = "\u2501\u2501\u2501";
-				} else {
-					output[(i + 1) * 2][j * 2 + 1] = "   ";
-				}
-			}
-		}
-		
-		// add outside borders
-		for (int i = 1; i < outputLength; i = i + 2) {
-			output[i][0] = "\u2503";
-			output[i][outputLength - 1] = "\u2503";
-			output[0][i] = "\u2501\u2501\u2501";
-			output[outputLength - 1][i] = "\u2501\u2501\u2501";
-		}
-		
-		// add corners
-		output[0][0] = "\u250F";
-		output[0][outputLength - 1] = "\u2513";
-		output[outputLength - 1][0] = "\u2517";
-		output[outputLength - 1][outputLength - 1] = "\u251B";
-		
-		
-		// Create 4 letters codes LRUD and match with switch statement
-		// have variables to store unicode strings
-		
-		// join upper horizontal borders
-		for (int j = 2; j < outputLength - 2; j = j + 2) {
-			if (output[1][j] == "\u2503") {
-				output[0][j] = "\u2533";
-			} else {
-				output[0][j] = "\u2501";
-			}
-		}
-		
-		// join horizontal borders
-		for (int i = 1; i < outputLength; i = i + 2) {
-			for (int j = 2; j < outputLength - 2; j = j + 2) {
-				if (output[i][j - 1] == "\u2501\u2501\u2501" && output[i][j + 1] == "\u2501\u2501\u2501") {
-					output[i][j] = "\u2501";
-				}
-			}
-		}
-		
-		// join vertical borders
-		for (int i = 2; i < outputLength - 2; i = i + 2) {
-			for (int j = 0; j < outputLength; j = j + 2) {
-				if (output[i - 1][j] == "\u2503" && output[i + 1][j] == "\u2503") {
-					output[i][j] = "\u2503";
-				}
-			}
-		}
-		
-		return output;
 	}
 }
