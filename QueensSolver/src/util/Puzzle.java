@@ -30,6 +30,14 @@ public class Puzzle {
 	 */
 	public Puzzle(char[][] regions) {
 		this.size = regions.length;
+		setSquares(regions);
+	}
+	
+	/**
+	 * Creates each square of the puzzle using the given grid of region labels.
+	 * @param regions the grid of region labels
+	 */
+	protected void setSquares(char[][] regions) {
 		this.grid = new Square[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -94,7 +102,7 @@ public class Puzzle {
 	 * @return true if square can be validly crowned, otherwise false
 	 */
 	protected boolean isCrownable(int row, int col) {
-		// check if row, column or region has already been crowned
+		// check if row, column or region have already been crowned
 		for (Square square : crownedSquares) {
 			if (row == square.getRow() || col == square.getCol()) {
 				return false;
@@ -109,12 +117,11 @@ public class Puzzle {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
 	/**
-	 * Checks if the square in the given row and column has been crowned.
+	 * Checks if the square in the given row and column is currently crowned.
 	 * @param row the row
 	 * @param col the column
 	 * @return true if square is crowned, otherwise false

@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Represents a square on the playing grid.
+ * Represents a square on the puzzle grid.
  * @author Joel Gibson
  */
 public class Square {
@@ -27,7 +27,7 @@ public class Square {
 	private boolean crowned;
 	
 	/**
-	 * Creates a squares with the given parameters.
+	 * Creates a square with the given parameters.
 	 * @param row the row number
 	 * @param col the column number
 	 * @param region the region label
@@ -60,7 +60,7 @@ public class Square {
 	}
 
 	/**
-	 * @return whether the square has been crowned
+	 * @return true if the square is currently crowned, otherwise false
 	 */
 	public boolean isCrowned() {
 		return crowned;
@@ -78,13 +78,5 @@ public class Square {
 	 */
 	public void removeCrown() {
 		this.crowned = false;
-	}
-	
-	@Override
-	public String toString() {
-		if (crowned) {
-			return "X";
-		}
-		return " ";
 	}
 }
