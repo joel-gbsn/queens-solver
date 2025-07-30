@@ -9,28 +9,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ui.UserInterface;
 import util.Puzzle;
 
 public class Reader {
 	
-	private String filename;
-	
-	public Reader(String filename) {
-		this.filename = filename;
-	}
-	
-	public Puzzle readPuzzle() {
+	public Puzzle readPuzzle(String filename) {
 		
 		List<char[]> rows = new ArrayList<>();
-		
-		File file = new File(filename);
-		FileReader fr = null;
 		BufferedReader br = null;
 		
 		try {	
-			// create readers to read the file
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
+			br = new BufferedReader(new FileReader(new File(filename)));
 			
 			// read each line from the file
 			String line = "";
@@ -39,29 +29,27 @@ public class Reader {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("Error reading file.");
+			UserInterface.printError("could not read file.");
 			return null;
-			
-		} finally {
-			// close the file readers
-			try {
-				fr.close();
-				br.close();
-			} catch (IOException e) {
-				System.out.println("Error reading file.");
-				return null;
-			}
+		}
+		
+		// close the file reader
+		try {
+			br.close();
+		} catch (IOException e) {
+			UserInterface.printError("could not read file.");
+			return null;
 		}
 		
 		char[][] grid = rows.toArray(new char[0][0]);
 		
 		if (!isValidDimension(grid)) {
-			System.out.println("Invalid puzzle dimensions.");
+			UserInterface.printError("invalid puzzle dimensions.");
 			return null;
 		}
 		
 		if (!isValidRegionNumber(grid)) {
-			System.out.println("Invalid number of regions.");
+			UserInterface.printError("invalid number of regions.");
 			return null;
 		}
 		

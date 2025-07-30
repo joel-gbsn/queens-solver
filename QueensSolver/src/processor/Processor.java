@@ -12,7 +12,14 @@ public class Processor {
 	
 	public Processor(Reader reader) {
 		this.reader = reader;
-		this.puzzle = reader.readPuzzle();
+	}
+	
+	public boolean loadPuzzle(String filename) {
+		puzzle = reader.readPuzzle(filename);
+		if (puzzle == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -50,12 +57,8 @@ public class Processor {
 		return false;
 	}
 	
-	public void print() {
+	public String[][] getPrintableGrid() {
 		GridCreator creator = new GridCreator(puzzle);
-		String[][] grid = creator.createGrid();
-		for (String[] row : grid) {
-			System.out.println(String.join("", row));
-		}
+		return creator.createGrid();
 	}
-
 }
