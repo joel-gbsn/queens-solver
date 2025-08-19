@@ -4,16 +4,35 @@ import datamanagement.Reader;
 import util.GridCreator;
 import util.Puzzle;
 
+/**
+ * The processor for solving puzzles.
+ * @author Joel Gibson
+ */
 public class Processor {
 	
+	/**
+	 * The reader for loading puzzles from files.
+	 */
 	private Reader reader;
 	
+	/**
+	 * The puzzle being solved.
+	 */
 	private Puzzle puzzle;
 	
+	/**
+	 * Creates a new processor using the given reader.
+	 * @param reader the reader for loading data
+	 */
 	public Processor(Reader reader) {
 		this.reader = reader;
 	}
 	
+	/**
+	 * Loads and sets the puzzle from the given file.
+	 * @param filename the file to read
+	 * @return true if puzzle could be loaded and was valid, otherwise false
+	 */
 	public boolean loadPuzzle(String filename) {
 		puzzle = reader.readPuzzle(filename);
 		if (puzzle == null) {
@@ -57,6 +76,10 @@ public class Processor {
 		return false;
 	}
 	
+	/**
+	 * Creates a printable grid of the puzzle.
+	 * @return the grid
+	 */
 	public String[][] getPrintableGrid() {
 		GridCreator creator = new GridCreator(puzzle);
 		return creator.createGrid();
